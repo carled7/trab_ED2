@@ -1,33 +1,25 @@
 #include <iostream>
 #include <stdio.h>
-#include <stdlib.h>
+#include <cstdlib>
 #include <vector>
 #include <ctype.h>
+#include <string.h>
 
 using namespace std;
 
-int quickSort(vector <int> v, int s, int e)
-{
-    if (s<e)
-    {
-        int p = particiona(v,s,e);
-        quickSort(v,s,p-1);
-        quickSort(v,p+1,e);
+void printVector(int* v){
+
+    char ignore;
+
+    for (int i = 0; v[i] != 0; i++){
+        printf("\n| %d |\n", v[i]);
     }
+
+    printf("\n\nDigite qualquer tecla para sair: ");   
+    scanf(" %c", &ignore);
 }
 
-void printVector(vector <int> v){
-    int ignore;
-    printf("\n\n");
-    for (int i = 0; i < v.size(); i++)
-    {
-        printf("| %d ",v.at(i));
-    }
-    printf("|\n\nDigite qualquer tecla para sair: ");   
-    scanf("%d", &ignore);
-}
-
-void escolherMetOrdena(vector <int> *v){
+void escolherMetOrdena(int* v){
     char metodo;
     system("clear");
     printf("\n-----------------------------------------\n");
@@ -40,7 +32,7 @@ void escolherMetOrdena(vector <int> *v){
     switch (metodo)
     {
     case 'Q':
-        quickSort()
+       // quickSort(&v, 0, v.size());
         break;
     
     default:
@@ -48,7 +40,8 @@ void escolherMetOrdena(vector <int> *v){
     }
 }
 
-void gerarVetor(vector <int> *v){
+int* gerarVetor(int* v){
+
     system("clear");
     int len;
     printf("\n-----------------------------------------\n");
@@ -57,28 +50,31 @@ void gerarVetor(vector <int> *v){
     printf("Digite o tamanho do vetor a ser gerado: ");
     scanf(" %d", &len);
 
-    for (int i = 0; i < len; i++)
-    {
-        v->push_back(rand() % 1000);
+    v = (int*) malloc(len * sizeof(int));
+
+    for (int i = 0; i < len; i++){
+        v[i] = rand() % 1000;
     }
+    
+    return v;
 }
 
-void hub(char op){
+void hub(char op, int* vetor){
     
-    vector <int> vetor;
     switch (op)
     {
     case 'A':
-        gerarVetor(&vetor);
+        vetor = gerarVetor(vetor);
         printVector(vetor);
         break;
     case 'B':
-        escolherMetOrdena(%vetor);
+        //escolherMetOrdena(*vetor);
         break;
     }
 }
 
 void menu(char * op){
+
     system("clear");
     printf("[A] - Gerar vetor\n");
     printf("[B] - Ordenar vetor\n");
@@ -92,11 +88,14 @@ void menu(char * op){
 
 int main(){
 
+    int* vetor;
+//    vetor = (int*) malloc(5 * sizeof(int));
     char option = 1;
 
     while(option != 'Q'){
         menu(&option);
-        hub(option);
+        hub(option, vetor);
+
     }
     printf("\n\nPrograma encerrado com sucesso\n\n\n");
 }
