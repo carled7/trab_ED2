@@ -146,6 +146,8 @@ void escolherMetOrdena(int* v, int* isSorted){
     printf(" [B] - Ordenar com MERGE SORT (salva ordenado)\n");
     scanf(" %c", &metodo);
 
+    metodo = toupper(metodo);
+
     switch (metodo)
     {
     case 'Q':
@@ -220,6 +222,8 @@ void menu(int* vetor){
         printf("\n[Q] - Para encerrar programa\n\n");
 
         scanf(" %c", &op);
+
+        op = toupper(op);
 
         switch (op)
         {
