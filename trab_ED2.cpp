@@ -130,7 +130,7 @@ int* cpyVtr(int* scr, int* dest){
     return dest;    
 }
 
-void escolherMetOrdena(int* v){
+void escolherMetOrdena(int* v, int* isSorted){
 
     char metodo;
     int* aux = (int*) malloc(vtrLen(v) * sizeof(int));
@@ -170,6 +170,7 @@ void escolherMetOrdena(int* v){
         printf("-----------------------------------------\n");
         printf(" [A] - O vetor foi ordenado");
         printf("\n-----------------------------------------\n");
+        *isSorted = 1;
         break;
     case 'B':
         mergeSort(v, 0, vtrLen(v)-1);
@@ -177,6 +178,7 @@ void escolherMetOrdena(int* v){
         printf("-----------------------------------------\n");
         printf(" [B] - O vetor foi ordenado");
         printf("\n-----------------------------------------\n");
+        *isSorted = 1;
         break;
     default:
         printf("\nNão valido\n");
@@ -205,7 +207,9 @@ int* gerarVetor(int* v){
 
 void menu(int* vetor){
 
-    char op;
+    char op, ignore;
+    int isCreated = 0, isSorted = 0;
+
     while (op != 'Q'){
         system("clear");
         printf("[A] - Gerar vetor\n");
@@ -220,57 +224,87 @@ void menu(int* vetor){
         switch (op)
         {
         case 'A':
-            vetor = gerarVetor(vetor);
+                vetor = gerarVetor(vetor);
+                isCreated = true;
             break;
         case 'B':
-            escolherMetOrdena(vetor);
+
+            if(isCreated == 1){
+                escolherMetOrdena(vetor, &isSorted);
+            }else{
+                system("clear");
+                printf("Para executar essa funcao é necessário que o vetor seja gerado (execute [A] - Gerar vetor).\n");
+                printf("\n Digite qualquer coisa para sair: ");
+                scanf(" %c", &ignore);
+            }
             break;
         case 'C':
-            int x, idx;
             system("clear");
             printf("-----------------------------------------\n");
             printf(" [C] - Busca sequencial");
             printf("\n-----------------------------------------\n");
-            printf(" Digite o valor a ser buscado: ");
-            scanf(" %d", &x);
-            idx = buscaSequencial(vetor, vtrLen(vetor), x);
-            if (idx != -1){
-                printf("\n-----------------------------------------\n");
-                printf("\n [%d] encontrado em %d\n", x, idx + 1);
+
+            if(isCreated == 1){
+                int x, idx;
+
+                printf(" Digite o valor a ser buscado: ");
+                scanf(" %d", &x);
+
+                idx = buscaSequencial(vetor, vtrLen(vetor), x);
+
+                if (idx != -1){
+                    printf("\n-----------------------------------------\n");
+                    printf("\n [%d] encontrado em %d\n", x, idx + 1);
+                }else{
+                    printf("\n-----------------------------------------\n");
+                    printf("\n [%d] não encontrado\n", x);
+                }
+                printf("\n Digite qualquer coisa para sair: ");
+                scanf(" %d", &x);
             }else{
-                printf("\n-----------------------------------------\n");
-                printf("\n [%d] não encontrado\n", x);
+                printf("Para executar essa funcao é necessário que o vetor seja gerado (execute [A] - Gerar vetor).\n");
+                printf("\n Digite qualquer coisa para sair: ");
+                scanf(" %c", &ignore);
             }
-            printf("\n Digite qualquer coisa para sair: ");
-            scanf(" %d", &x);
             break;
         case 'D':
             int y, yidx;
+
             system("clear");
             printf("-----------------------------------------\n");
             printf(" [D] - Busca binária");
             printf("\n-----------------------------------------\n");
-            printf(" Digite o valor a ser buscado: ");
-            scanf(" %d", &y);
 
-            //int* aux = (int*) malloc(vtrLen(vetor) * sizeof(int));
-            //cpyVtr(vetor, aux);
+            if((isCreated == 1) && (isSorted == 1)){
+                printf(" Digite o valor a ser buscado: ");
+                scanf(" %d", &y);
 
-            yidx = buscaBinaria(vetor, vtrLen(vetor), y);
+                yidx = buscaBinaria(vetor, vtrLen(vetor), y);
 
-            if (yidx != -1){
-                printf("\n-----------------------------------------\n");
-                printf("\n [%d] encontrado em %d\n", y, yidx + 1);
+                if (yidx != -1){
+                    printf("\n-----------------------------------------\n");
+                    printf("\n [%d] encontrado em %d\n", y, yidx + 1);
+                }else{
+                    printf("\n-----------------------------------------\n");
+                    printf("\n [%d] não encontrado\n", y);
+                }
+                printf("\n Digite qualquer coisa para sair: ");
+                scanf(" %d", &y);
             }else{
-                printf("\n-----------------------------------------\n");
-                printf("\n [%d] não encontrado\n", y);
-            }
-            printf("\n Digite qualquer coisa para sair: ");
-            scanf(" %d", &y);
-
+                printf("Para executar essa funcao é necessário que o vetor seja gerado (execute [A] - Gerar vetor) e ordenado (execute [B] - Ordenar vetor > [A] ou [B]).\n");
+                printf("\n Digite qualquer coisa para sair: ");
+                scanf(" %c", &ignore);
+            }            
             break;
         case 'E':
-            printVtr(vetor);
+            if(isCreated == 1){
+                printVtr(vetor);
+            }else{
+                system("clear");
+                printf("Para executar essa funcao é necessário que o vetor seja gerado (execute [A] - Gerar vetor).\n");
+                printf("\n Digite qualquer coisa para sair: ");
+                scanf(" %c", &ignore);
+            }
             break;
         }
     }
