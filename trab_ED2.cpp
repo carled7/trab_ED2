@@ -1,7 +1,6 @@
 #include <iostream>
 #include <stdio.h>
 #include <cstdlib>
-#include <vector>
 #include <ctype.h>
 #include <string.h>
 
@@ -229,6 +228,7 @@ void menu(int* vetor){
         {
         case 'A':
                 vetor = gerarVetor(vetor);
+                isSorted = false;
                 isCreated = true;
             break;
         case 'B':
